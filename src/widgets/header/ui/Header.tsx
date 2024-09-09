@@ -1,28 +1,11 @@
 'use client';
 
 import { Dialog, DialogPanel } from '@headlessui/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 
-import { LinkIcon, LinkButton, Menu } from '@/components/ui';
-
-const NAVIGATION = [
-    {
-        href: '/',
-        name: 'Home',
-    },
-    {
-        href: '/calculator',
-        name: 'Calculator',
-    },
-    {
-        href: '/about',
-        name: 'About',
-    },
-    {
-        href: '/contact',
-        name: 'Contact',
-    },
-];
+import { LinkIcon, LinkButton } from '@/shared/ui';
+import { NAVIGATION } from '@/widgets/header/configs';
 
 export function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -56,7 +39,14 @@ export function Header() {
                     </div>
 
                     <div className="flex lg:hidden">
-                        <Menu onClick={() => setMobileMenuOpen(false)} />
+                        <button
+                            type="button"
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                        >
+                            <span className="sr-only">Close menu</span>
+                            <XMarkIcon aria-hidden="true" className="h-6 w-6" />
+                        </button>
                     </div>
                 </div>
             </div>

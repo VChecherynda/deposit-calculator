@@ -18,12 +18,12 @@ export const LinkButton = ({
     onClick?: () => void;
 }) => {
     return (
-        <button
-            type="button"
+        <NextLink
+            href={href}
             className={`rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${VARIANTS_CONFIG[variant]}`}
             onClick={onClick}
         >
-            <NextLink href={href}>{name}</NextLink>
-        </button>
+            {name}
+        </NextLink>
     );
 };

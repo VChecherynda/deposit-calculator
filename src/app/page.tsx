@@ -1,5 +1,5 @@
-import { Title } from '@/components/ui';
-import { Link, LinkButton } from '@/components/ui';
+import { Title } from '@/shared/ui';
+import { Link, LinkButton } from '@/shared/ui';
 
 export default function Home() {
     return (
@@ -8,9 +8,9 @@ export default function Home() {
                 <div className="text-center">
                     <Title title="Future income" />
                     <p className="mt-6 text-lg leading-8 text-gray-600">
-                        In this simple app, I`ll try to help you and me to
-                        calculate your income. You basically add how much money
-                        your could save and how many do you need.
+                        This is learning project which help me and you calculate
+                        your income. You basically add how much money your could
+                        save and how many do you need.
                     </p>
                     <div className="mt-10 flex items-center justify-center gap-x-6">
                         <LinkButton href="/calculator" name="Get started" />
