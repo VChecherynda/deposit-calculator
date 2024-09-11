@@ -13,9 +13,9 @@ export default function Calculator() {
         currencyPrev: '',
         currencyCur: 'usd',
         exchangeRate: 0,
-        goal: '500',
-        savings: '2000',
-        percent: '8',
+        goal: 500,
+        savings: 2000,
+        percent: 8,
     });
 
     const onChange = ({
@@ -25,14 +25,14 @@ export default function Calculator() {
         valuePrev,
     }: {
         name: string;
-        value: string;
+        value: number;
         namePrev?: string;
-        valuePrev?: string;
+        valuePrev?: number;
     }) => {
         setValues((prev) => ({
             ...prev,
-            [name]: value,
-            ...(namePrev && valuePrev ? { [namePrev]: valuePrev } : {}),
+            [name]: Number(value),
+            ...(namePrev && valuePrev ? { [namePrev]: Number(valuePrev) } : {}),
         }));
     };
 
@@ -49,8 +49,8 @@ export default function Calculator() {
             return {
                 ...prev,
                 exchangeRate,
-                goal: goal.multipliedBy(rate).toFixed(2),
-                savings: savings.multipliedBy(rate).toFixed(2),
+                goal: goal.multipliedBy(rate).toNumber(),
+                savings: savings.multipliedBy(rate).toNumber(),
             };
         });
     };

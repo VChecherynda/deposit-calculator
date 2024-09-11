@@ -21,9 +21,9 @@ export const FormSavings = ({
         value,
     }: {
         name: string;
-        value: string;
+        value: number;
         namePrev?: string;
-        valuePrev?: string;
+        valuePrev?: number;
     }) => void;
     onChangeRate: (exchangeRate: number) => void;
 }) => {
@@ -51,37 +51,40 @@ export const FormSavings = ({
                 onChange={(e) =>
                     onChange({
                         name: 'currencyCur',
-                        value: e.target.value,
+                        value: Number(e.target.value),
                         namePrev: 'currencyPrev',
-                        valuePrev: values.currencyCur,
+                        valuePrev: Number(values.currencyCur),
                     })
                 }
             />
             <Input
                 label={`Your goal ${values.currencyCur.toUpperCase()} per/month`}
                 name="goal"
+                type="number"
                 value={values.goal}
                 onChange={(e) =>
-                    onChange({ name: 'goal', value: e.target.value })
+                    onChange({ name: 'goal', value: Number(e.target.value) })
                 }
             />
             <Input
                 label={`Savings ${values.currencyCur.toUpperCase()} per/month`}
                 name="savings"
+                type="number"
                 value={values.savings}
                 onChange={(e) => {
                     onChange({
                         name: 'savings',
-                        value: e.target.value,
+                        value: Number(e.target.value),
                     });
                 }}
             />
             <Input
                 label="Percent (%)"
                 name="percent"
+                type="number"
                 value={values.percent}
                 onChange={(e) =>
-                    onChange({ name: 'percent', value: e.target.value })
+                    onChange({ name: 'percent', value: Number(e.target.value) })
                 }
             />
         </>
