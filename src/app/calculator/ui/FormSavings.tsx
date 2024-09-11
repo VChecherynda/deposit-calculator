@@ -42,26 +42,23 @@ export const FormSavings = ({
 
     return (
         <>
-            {isFetchingList ? (
-                'Loading...'
-            ) : (
-                <Select
-                    label="Select currency to convert"
-                    name="currency"
-                    value={values.currencyCur}
-                    options={currencyList ?? []}
-                    onChange={(e) =>
-                        onChange({
-                            name: 'currencyCur',
-                            value: e.target.value,
-                            namePrev: 'currencyPrev',
-                            valuePrev: values.currencyCur,
-                        })
-                    }
-                />
-            )}
+            <Select
+                label="Select currency to convert"
+                name="currency"
+                value={values.currencyCur}
+                loading={isFetchingList}
+                options={currencyList ?? []}
+                onChange={(e) =>
+                    onChange({
+                        name: 'currencyCur',
+                        value: e.target.value,
+                        namePrev: 'currencyPrev',
+                        valuePrev: values.currencyCur,
+                    })
+                }
+            />
             <Input
-                label={`Your goal ${values.currencyCur} per/month`}
+                label={`Your goal ${values.currencyCur.toUpperCase()} per/month`}
                 name="goal"
                 value={values.goal}
                 onChange={(e) =>
@@ -69,12 +66,15 @@ export const FormSavings = ({
                 }
             />
             <Input
-                label={`Savings ${values.currencyCur} per/month`}
+                label={`Savings ${values.currencyCur.toUpperCase()} per/month`}
                 name="savings"
                 value={values.savings}
-                onChange={(e) =>
-                    onChange({ name: 'savings', value: e.target.value })
-                }
+                onChange={(e) => {
+                    onChange({
+                        name: 'savings',
+                        value: e.target.value,
+                    });
+                }}
             />
             <Input
                 label="Percent (%)"

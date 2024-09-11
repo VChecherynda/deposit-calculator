@@ -7,7 +7,7 @@ export const Input = ({
 }: {
     label: string;
     name: string;
-    value: string;
+    value: string | number;
     errors?: {
         name: string;
     };
@@ -25,7 +25,7 @@ export const Input = ({
                 id={name}
                 type="text"
                 value={value}
-                className={`mt-1 block w-48 w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm ${
+                className={`mt-1 block w-48 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm ${
                     errors?.name ? 'border-red-500' : ''
                 }`}
                 onChange={onChange}

@@ -2,6 +2,7 @@ export const Select = ({
     label,
     name,
     value,
+    loading,
     options,
     errors,
     onChange,
@@ -9,6 +10,7 @@ export const Select = ({
     label: string;
     name: string;
     value: string;
+    loading: boolean;
     options: { key: string; value: string }[];
     errors?: {
         name: string;
@@ -23,22 +25,29 @@ export const Select = ({
             >
                 {label}
             </label>
-            <select
-                id={name}
-                value={value}
-                className={`mt-1 block w-48 w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm ${
-                    errors?.name ? 'border-red-500' : ''
-                }`}
-                onChange={onChange}
-            >
-                {options.map((item, index) => {
-                    return (
-                        <option key={item.key} value={item.key}>
-                            {item.value}
-                        </option>
-                    );
-                })}
-            </select>
+            {loading ? (
+                <p className="mt-2 block w-48 px-3 py-2 text-sm font-medium text-gray-700">
+                    {'Loading...'}
+                </p>
+            ) : (
+                <select
+                    id={name}
+                    value={value}
+                    className={`mt-1 block w-48 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm ${
+                        errors?.name ? 'border-red-500' : ''
+                    }`}
+                    onChange={onChange}
+                >
+                    {options.map((item) => {
+                        return (
+                            <option key={item.key} value={item.key}>
+                                {item.value}
+                            </option>
+                        );
+                    })}
+                </select>
+            )}
+
             {errors?.name && (
                 <span className="text-sm text-red-500">
                     This field is required

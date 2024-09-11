@@ -1,13 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import BigNumber from 'bignumber.js';
 
-import { FormSavings } from './ui';
+import { FormSavings, Total } from './ui';
 import { Savings } from '@/app/calculator/types/Savings';
-import {
-    calculateYearSavings,
-    calculateTotalYears,
-} from '@/app/calculator/lib';
+
+BigNumber.config({ DECIMAL_PLACES: 2 }); // equivalent
 
 export default function Calculator() {
     const [values, setValues] = useState<Savings>({
@@ -43,17 +42,15 @@ export default function Calculator() {
                 return prev;
             }
 
+            const goal = new BigNumber(prev.goal);
+            const savings = new BigNumber(prev.savings);
+            const rate = new BigNumber(exchangeRate);
+
             return {
                 ...prev,
                 exchangeRate,
-                goal: ((Number(prev.goal) / 100) * exchangeRate * 100).toFixed(
-                    2
-                ),
-                savings: (
-                    (Number(prev.savings) / 100) *
-                    exchangeRate *
-                    100
-                ).toFixed(2),
+                goal: goal.multipliedBy(rate).toFixed(2),
+                savings: savings.multipliedBy(rate).toFixed(2),
             };
         });
     };
@@ -66,11 +63,7 @@ export default function Calculator() {
                 onChangeRate={onChangeRate}
             />
             ---
-            <div>
-                Total:
-                {` ${calculateYearSavings(values) * calculateTotalYears(values)}`}
-            </div>
-            <div>Years: {calculateTotalYears(values)}</div>
+            <Total values={values} />
         </main>
     );
 }

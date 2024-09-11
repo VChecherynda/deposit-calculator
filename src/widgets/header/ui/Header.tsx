@@ -17,7 +17,8 @@ export function Header() {
                     <div className="flex-shrink-0">
                         <LinkIcon
                             href="/"
-                            iconSrc="https://tailwindui.com/img/logos/mark.svg"
+                            icon="BsCalculatorFill"
+                            color="white"
                         />
                     </div>
 
