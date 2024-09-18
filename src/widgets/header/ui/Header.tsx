@@ -61,7 +61,8 @@ export function Header() {
                     <div className="flex items-center justify-between">
                         <LinkIcon
                             href="/"
-                            iconSrc="https://tailwindui.com/img/logos/mark.svg"
+                            icon="https://tailwindui.com/img/logos/mark.svg"
+                            color="white"
                         />
                     </div>
 
