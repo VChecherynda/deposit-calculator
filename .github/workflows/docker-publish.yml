@@ -46,12 +46,12 @@ jobs:
               uses: shimataro/ssh-key-action@v2
               with:
                   key: ${{ secrets.SSH_PRIVATE_KEY }}
-                  known_hosts: 'digitalocean_droplet_ip_address'
+                  known_hosts: ${{ secrets.DROPLET_HOST_ADRESS }}
 
             # Deploy the Docker container to the DigitalOcean droplet
             - name: Deploy Docker Container
               run: |
-                  ssh -o StrictHostKeyChecking=no root@digitalocean_droplet_ip_address << EOF
+                  ssh -o StrictHostKeyChecking=no root@${{ secrets.DROPLET_HOST_ADRESS }} << EOF
                     docker pull ${{ secrets.DOCKER_USERNAME }}/deposit-calculator:latest
                     docker stop deposit-calculator || true
                     docker rm deposit-calculator || true
