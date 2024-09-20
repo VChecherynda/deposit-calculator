@@ -16,8 +16,12 @@ export function Total({ values }: { values: Savings }) {
 
     return (
         <>
-            <div>{`Total: ${totalSum} ${values.currencyCur}`} </div>
-            <div>{`Term: ${years} years, ${month} month ${days} days`}</div>
+            <div>
+                <b>Total:</b> ${totalSum} ${values.currencyCur}
+            </div>
+            <div>
+                <b>Term:</b> ${years} years, ${month} month ${days} days
+            </div>
         </>
     );
 }
