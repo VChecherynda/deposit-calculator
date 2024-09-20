@@ -1,34 +1,36 @@
-FROM node:20.17-alpine AS base
-RUN apk update
-RUN apk add --no-cache g++ make py3-pip libc6-compat
+FROM node:20.17-alpine
+
+# Set the working directory.
 WORKDIR /app
-COPY package*.json ./
+
+# Copy package.json and yarn.lock (or package-lock.json).
+COPY package.json yarn.lock ./
+
+# Install dependencies.
+RUN yarn install
+
+# Copy the rest of the application code.
+COPY . .
+
+# Build the Next.js app.
+RUN yarn build
+
+# Create the final image.
+FROM node:20.17-alpine
+
+# Set the working directory.
+WORKDIR /app
+
+# Copy only the necessary files from the builder stage.
+COPY --from=builder /app/.next .next
+COPY --from=builder /app/public public
+COPY package.json ./
+
+# Install production dependencies.
+RUN yarn install --production
+
+# Expose the desired port (default is 3000).
 EXPOSE 3000
 
-FROM base AS builder
-WORKDIR /app
-COPY . .
-RUN yarn run build
-
-FROM base AS production
-WORKDIR /app
-
-ENV NODE_ENV=production
-RUN yarn install --frozen-lockfile
-
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
-USER nextjs
-
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/public ./public
-
-CMD yarn run start
-
-# FROM base AS dev
-# ENV NODE_ENV=development
-# RUN yarn
-# COPY . .
-# CMD yarn run dev
+# Start the Next.js application.
+CMD yarn start

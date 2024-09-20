@@ -55,5 +55,5 @@ jobs:
                     docker pull ${{ secrets.DOCKER_USERNAME }}/deposit-calculator:latest
                     docker stop deposit-calculator || true
                     docker rm deposit-calculator || true
-                    docker run -d --name deposit-calculator -p 80:80 ${{ secrets.DOCKER_USERNAME }}/deposit-calculator:latest
+                    docker run -d --name deposit-calculator -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/deposit-calculator:latest
                   EOF
