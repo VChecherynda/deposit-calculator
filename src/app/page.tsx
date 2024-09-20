@@ -6,7 +6,7 @@ export default function Home() {
         <main className="px-6relative isolate pt-14 lg:px-8">
             <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
                 <div className="text-center">
-                    <Title title="Future income 123" />
+                    <Title title="Future income" />
 
                     <p className="mt-6 text-lg leading-8 text-gray-600">
                         This is learning project which help me and you calculate
