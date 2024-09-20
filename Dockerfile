@@ -8,7 +8,7 @@ EXPOSE 3000
 FROM base AS builder
 WORKDIR /app
 COPY . .
-RUN ["yarn", "run", "build"]
+RUN yarn run build
 
 FROM base AS production
 WORKDIR /app
@@ -25,10 +25,10 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/public ./public
 
-CMD ["yarn", "run", "start"]
+CMD yarn run start
 
-FROM base AS dev
-ENV NODE_ENV=development
-RUN yarn
-COPY . .
-CMD yarn run dev
+# FROM base AS dev
+# ENV NODE_ENV=development
+# RUN yarn
+# COPY . .
+# CMD yarn run dev
