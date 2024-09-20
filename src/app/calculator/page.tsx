@@ -25,15 +25,25 @@ export default function Calculator() {
         valuePrev,
     }: {
         name: string;
-        value: number;
+        value: string | number;
         namePrev?: string;
-        valuePrev?: number;
+        valuePrev?: string | number;
     }) => {
-        setValues((prev) => ({
-            ...prev,
-            [name]: Number(value),
-            ...(namePrev && valuePrev ? { [namePrev]: Number(valuePrev) } : {}),
-        }));
+        if (name === 'currencyPrev' || name === 'currencyCur') {
+            setValues((prev) => ({
+                ...prev,
+                [name]: value,
+                ...(namePrev && valuePrev ? { [namePrev]: valuePrev } : {}),
+            }));
+        } else {
+            setValues((prev) => ({
+                ...prev,
+                [name]: Number(value),
+                ...(namePrev && valuePrev
+                    ? { [namePrev]: Number(valuePrev) }
+                    : {}),
+            }));
+        }
     };
 
     const onChangeRate = (exchangeRate: number) => {

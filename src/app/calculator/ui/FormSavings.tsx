@@ -21,9 +21,9 @@ export const FormSavings = ({
         value,
     }: {
         name: string;
-        value: number;
+        value: string | number;
         namePrev?: string;
-        valuePrev?: number;
+        valuePrev?: string | number;
     }) => void;
     onChangeRate: (exchangeRate: number) => void;
 }) => {
@@ -40,6 +40,8 @@ export const FormSavings = ({
         }
     }, [onChangeRate, exchangeRate]);
 
+    console.log('[values]', values);
+
     return (
         <>
             <Select
@@ -48,14 +50,16 @@ export const FormSavings = ({
                 value={values.currencyCur}
                 loading={isFetchingList}
                 options={currencyList ?? []}
-                onChange={(e) =>
+                onChange={(e) => {
+                    console.log('[value]', e.target.value);
+
                     onChange({
                         name: 'currencyCur',
-                        value: Number(e.target.value),
+                        value: e.target.value,
                         namePrev: 'currencyPrev',
-                        valuePrev: Number(values.currencyCur),
-                    })
-                }
+                        valuePrev: values.currencyCur,
+                    });
+                }}
             />
             <Input
                 label={`Your goal ${values.currencyCur.toUpperCase()} per/month`}
