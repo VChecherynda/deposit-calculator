@@ -40,8 +40,6 @@ export const FormSavings = ({
         }
     }, [onChangeRate, exchangeRate]);
 
-    console.log('[values]', values);
-
     return (
         <>
             <Select
@@ -51,8 +49,6 @@ export const FormSavings = ({
                 loading={isFetchingList}
                 options={currencyList ?? []}
                 onChange={(e) => {
-                    console.log('[value]', e.target.value);
-
                     onChange({
                         name: 'currencyCur',
                         value: e.target.value,
