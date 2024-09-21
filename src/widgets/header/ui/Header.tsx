@@ -1,17 +1,21 @@
 'use client';
 
-import { Dialog, DialogPanel } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
+import {
+    Disclosure,
+    DisclosureButton,
+    DisclosurePanel,
+} from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 
-import { LinkIcon, LinkButton } from '@/shared/ui';
+import { LinkIcon, LinkButton, Link } from '@/shared/ui';
 import { NAVIGATION } from '@/widgets/header/configs';
 
 export function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
-        <header className="bg-gray-800">
+        <Disclosure as="header" className="bg-gray-800">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                     <div className="flex-shrink-0">
@@ -22,7 +26,7 @@ export function Header() {
                         />
                     </div>
 
-                    <div className="hidden md:block">
+                    <div className="hidden sm:block">
                         <nav className="ml-10 flex items-baseline space-x-4">
                             {NAVIGATION.map((item) => (
                                 <div
@@ -39,50 +43,42 @@ export function Header() {
                         </nav>
                     </div>
 
-                    <div className="flex lg:hidden">
-                        <button
-                            type="button"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="-m-2.5 rounded-md p-2.5 text-gray-700"
-                        >
-                            <span className="sr-only">Close menu</span>
-                            <XMarkIcon aria-hidden="true" className="h-6 w-6" />
-                        </button>
+                    <div className="sm:hidden">
+                        <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                            <span className="absolute -inset-0.5" />
+                            <span className="sr-only">Open main menu</span>
+                            <Bars3Icon
+                                aria-hidden="true"
+                                className="block h-6 w-6 group-data-[open]:hidden"
+                            />
+                            <XMarkIcon
+                                aria-hidden="true"
+                                className="hidden h-6 w-6 group-data-[open]:block"
+                            />
+                        </DisclosureButton>
                     </div>
                 </div>
             </div>
 
-            <Dialog
-                open={mobileMenuOpen}
-                onClose={setMobileMenuOpen}
-                className="lg:hidden"
-            >
-                <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-                    <div className="flex items-center justify-between">
-                        <LinkIcon
-                            href="/"
-                            icon="https://tailwindui.com/img/logos/mark.svg"
-                            color="white"
-                        />
-                    </div>
-
-                    <div className="mt-6 flow-root">
-                        <div className="-my-6 divide-y divide-gray-500/10">
-                            <div className="space-y-2 py-6">
-                                {NAVIGATION.map((item) => (
-                                    <LinkButton
-                                        key={item.name}
-                                        href={item.href}
-                                        name={item.name}
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        variant="black"
-                                    />
-                                ))}
+            <DisclosurePanel>
+                <div className="mt-6 flow-root">
+                    <div className="divide-y divide-gray-500/10">
+                        {NAVIGATION.map((item) => (
+                            <div
+                                key={item.name}
+                                className="t w-full space-y-2 py-4"
+                            >
+                                <Link
+                                    href={item.href}
+                                    name={item.name}
+                                    variant="full"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                />
                             </div>
-                        </div>
+                        ))}
                     </div>
-                </DialogPanel>
-            </Dialog>
-        </header>
+                </div>
+            </DisclosurePanel>
+        </Disclosure>
     );
 }
