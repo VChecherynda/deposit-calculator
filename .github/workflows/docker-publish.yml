@@ -52,8 +52,13 @@ jobs:
             - name: Deploy Docker Container
               run: |
                   ssh -o StrictHostKeyChecking=no root@${{ secrets.DROPLET_HOST_ADRESS }} << EOF
-                    docker pull ${{ secrets.DOCKER_USERNAME }}/deposit-calculator:${{ github.sha }}
-                    docker stop deposit-calculator || true
-                    docker rm deposit-calculator || true
-                    docker run -d --name deposit-calculator -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/deposit-calculator:${{ github.sha }}
+                    docker rmi ${{ secrets.DOCKER_USERNAME }}/deposit-calculator:latest
+                    docker pull ${{ secrets.DOCKER_USERNAME }}/deposit-calculator:latest
+
+                    if docker ps -a --format '{{.Names}}' | grep -q '^deposit-calculator$'; then
+                      docker stop deposit-calculator
+                      docker rm deposit-calculator
+                    fi
+
+                    docker run -d --name deposit-calculator -p 3000:80 ${{ secrets.DOCKER_USERNAME }}/deposit-calculator:latest
                   EOF
