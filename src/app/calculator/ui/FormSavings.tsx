@@ -60,7 +60,7 @@ export const FormSavings = ({
             <Input
                 label={`Your goal ${values.currencyCur.toUpperCase()} per/month`}
                 name="goal"
-                type="number"
+                type="text"
                 value={values.goal}
                 onChange={(e) =>
                     onChange({ name: 'goal', value: Number(e.target.value) })
@@ -69,7 +69,7 @@ export const FormSavings = ({
             <Input
                 label={`Savings ${values.currencyCur.toUpperCase()} per/month`}
                 name="savings"
-                type="number"
+                type="text"
                 value={values.savings}
                 onChange={(e) => {
                     onChange({
@@ -81,7 +81,7 @@ export const FormSavings = ({
             <Input
                 label="Percent (%)"
                 name="percent"
-                type="number"
+                type="text"
                 value={values.percent}
                 onChange={(e) =>
                     onChange({ name: 'percent', value: Number(e.target.value) })

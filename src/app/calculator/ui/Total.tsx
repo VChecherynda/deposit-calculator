@@ -17,10 +17,10 @@ export function Total({ values }: { values: Savings }) {
     return (
         <>
             <div>
-                <b>Total:</b> ${totalSum} ${values.currencyCur}
+                <b>Total:</b> {`${totalSum} ${values.currencyCur}`}
             </div>
             <div>
-                <b>Term:</b> ${years} years, ${month} month ${days} days
+                <b>Term:</b> {`${years} years, ${month} month ${days} days`}
             </div>
         </>
     );
