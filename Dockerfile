@@ -30,7 +30,7 @@ COPY package.json ./
 RUN yarn install --production
 
 # Expose the desired port (default is 3000).
-EXPOSE 3000
+EXPOSE 80
 
 # Start the Next.js application.
 CMD yarn start
