@@ -61,11 +61,12 @@ jobs:
                   key: ${{ secrets.SSH_PRIVATE_KEY }}
                   known_hosts: ${{ secrets.DROPLET_HOST_ADRESS }}
 
-            # Deploy the Docker container to the DigitalOcean droplet
+            - name: Copy docker-compose file
+              run: |
+                scp -o StrictHostKeyChecking=no docker-compose.yml root@${{ secrets.DROPLET_HOST_ADRESS }}:/root/docker-compose.yml
+
             - name: Deploy Docker Container
               run: |
-                  scp -o StrictHostKeyChecking=no docker-compose.yml root@${{ secrets.DROPLET_HOST_ADRESS }}:/root/docker-compose.yml
-
                   ssh -o StrictHostKeyChecking=no root@${{ secrets.DROPLET_HOST_ADRESS }} << EOF
 
 
