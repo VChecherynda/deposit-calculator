@@ -79,7 +79,6 @@ export const FormSavings = ({
             <Input
                 label="Percent (%)"
                 name="percent"
-                type="text"
                 value={values.percent}
                 onChange={(e) =>
                     onChange({ name: 'percent', value: Number(e.target.value) })
