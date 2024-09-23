@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 
-import { Select, Input } from '@/shared/ui';
+import { Select, Input } from '@/widgets/form';
 import { Savings } from '@/app/calculator/types/Savings';
 import {
     queryCurrencyList,
@@ -48,10 +48,10 @@ export const FormSavings = ({
                 value={values.currencyCur}
                 loading={isFetchingList}
                 options={currencyList ?? []}
-                onChange={(e) => {
+                onChange={(value) => {
                     onChange({
                         name: 'currencyCur',
-                        value: e.target.value,
+                        value: value,
                         namePrev: 'currencyPrev',
                         valuePrev: values.currencyCur,
                     });
@@ -60,7 +60,6 @@ export const FormSavings = ({
             <Input
                 label={`Your goal ${values.currencyCur.toUpperCase()} per/month`}
                 name="goal"
-                type="text"
                 value={values.goal}
                 onChange={(e) =>
                     onChange({ name: 'goal', value: Number(e.target.value) })
@@ -69,7 +68,6 @@ export const FormSavings = ({
             <Input
                 label={`Savings ${values.currencyCur.toUpperCase()} per/month`}
                 name="savings"
-                type="text"
                 value={values.savings}
                 onChange={(e) => {
                     onChange({

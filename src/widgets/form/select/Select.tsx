@@ -1,3 +1,13 @@
+import {
+    Select as SelectCore,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from '@/shared/ui/select';
+
 export const Select = ({
     label,
     name,
@@ -19,7 +29,24 @@ export const Select = ({
 }) => {
     return (
         <div className="mb-4">
-            <label
+            <SelectCore value={value} onValueChange={onChange}>
+                <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select a fruit" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectGroup>
+                        <SelectLabel>{label}</SelectLabel>
+                        {options.map((item) => {
+                            return (
+                                <SelectItem key={item.key} value={item.key}>
+                                    {item.value}
+                                </SelectItem>
+                            );
+                        })}
+                    </SelectGroup>
+                </SelectContent>
+            </SelectCore>
+            {/* <label
                 htmlFor={name}
                 className="block text-sm font-medium text-gray-700"
             >
@@ -52,7 +79,7 @@ export const Select = ({
                 <span className="text-sm text-red-500">
                     This field is required
                 </span>
-            )}
+            )} */}
         </div>
     );
 };
