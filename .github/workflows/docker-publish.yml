@@ -67,6 +67,12 @@ jobs:
                   ssh -o StrictHostKeyChecking=no root@${{ secrets.DROPLET_HOST_ADRESS }} << EOF
                     docker images purge
                     docker pull ${{ secrets.DOCKER_USERNAME }}/deposit-calculator:latest
+                    docker pull ${{ secrets.DOCKER_USERNAME }}/nginx:latest
+
+                      if docker ps -a --format '{{.Names}}' | grep -q '^nginx$'; then
+                      docker stop nginx
+                      docker rm nginx
+                    fi
 
                     if docker ps -a --format '{{.Names}}' | grep -q '^deposit-calculator$'; then
                       docker stop deposit-calculator
