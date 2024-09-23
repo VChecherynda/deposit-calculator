@@ -64,7 +64,11 @@ jobs:
             # Deploy the Docker container to the DigitalOcean droplet
             - name: Deploy Docker Container
               run: |
+                  scp -o StrictHostKeyChecking=no docker-compose.yml root@${{ secrets.DROPLET_HOST_ADRESS }}:/root/docker-compose.yml
+
                   ssh -o StrictHostKeyChecking=no root@${{ secrets.DROPLET_HOST_ADRESS }} << EOF
+
+
                     docker images purge
                     docker pull ${{ secrets.DOCKER_USERNAME }}/deposit-calculator:latest
                     docker pull ${{ secrets.DOCKER_USERNAME }}/nginx:latest
@@ -79,5 +83,5 @@ jobs:
                       docker rm deposit-calculator
                     fi
 
-                    docker-compose up
+                    docker-compose up -d
                   EOF
