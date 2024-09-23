@@ -52,7 +52,7 @@ jobs:
             - name: Deploy Docker Container
               run: |
                   ssh -o StrictHostKeyChecking=no root@${{ secrets.DROPLET_HOST_ADRESS }} << EOF
-                    docker rmi -f ${{ secrets.DOCKER_USERNAME }}/deposit-calculator:latest
+                    docker images purge
                     docker pull ${{ secrets.DOCKER_USERNAME }}/deposit-calculator:latest
 
                     if docker ps -a --format '{{.Names}}' | grep -q '^deposit-calculator$'; then
