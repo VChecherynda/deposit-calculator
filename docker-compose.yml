@@ -1,9 +1,8 @@
-version: '3'
-
 services:
   nextjs:
     build:
       context: .
+      dockerfile: Dockerfile.prod
       target: runner
     restart: always
     networks:
@@ -12,6 +11,7 @@ services:
   nginx:
     build:
       context: .
+      dockerfile: Dockerfile.prod
       target: nginx
     restart: always
     ports:
