@@ -38,11 +38,13 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     
+    
     steps:
     - name: Deploy to Digital Ocean droplet
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.DROPLET_HOST_ADRESS }}
+        username: ${{ secrets.DROPLET_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           git pull origin main
