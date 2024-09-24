@@ -1,88 +1,50 @@
 name: Deploy to DigitalOcean
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches: [ main ]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build Docker image
+      run: docker build -f Dockerfile.prod -t dcalc:${GITHUB_SHA} .
+      
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_TOKEN }}
+        
+    - name: Push image to Docker Hub
+      run: |
+        docker tag dcalc:${GITHUB_SHA} ${{ secrets.DOCKER_USERNAME }}/dcalc:${GITHUB_SHA}
+        docker push ${{ secrets.DOCKER_USERNAME }}/dcalc:${GITHUB_SHA}
 
-        steps:
-            # Checkout the latest code
-            - name: Checkout code
-              uses: actions/checkout@v3
-
-            # Set up Docker Buildx
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v3
-
-            # Log in to Docker Hub using secrets
-            - name: Log in to Docker Hub
-              uses: docker/login-action@v3
-              with:
-                  username: ${{ secrets.DOCKER_USERNAME }}
-                  password: ${{ secrets.DOCKER_PASSWORD }}
-
-            # - name: Build images
-            #   run: |
-            #       docker build -t nextjs-app .
-            #       docker build -t nginx-app -t nginx:latest . -f nginx/Dockerfile
-
-            # Build and push App Docker images to Docker Hub
-            - name: Build and push App Docker image
-              uses: docker/build-push-action@v5
-              with:
-                  context: .
-                  push: true
-                  tags: ${{ secrets.DOCKER_USERNAME }}/deposit-calculator:latest
-
-           # Build and push App Docker images to Docker Hub
-            - name: Build and push Nginx Docker image
-              uses: docker/build-push-action@v5
-              with:
-                  context: .
-                  push: true
-                  tags: ${{ secrets.DOCKER_USERNAME }}/nginx:latest
-
-    deploy:
-        needs: build
-        runs-on: ubuntu-latest
-
-        steps:
-            # Set up SSH
-            - name: Install SSH client
-              run: sudo apt-get install openssh-client
-
-            - name: Add SSH key
-              uses: shimataro/ssh-key-action@v2
-              with:
-                  key: ${{ secrets.SSH_PRIVATE_KEY }}
-                  known_hosts: ${{ secrets.DROPLET_HOST_ADRESS }}
-
-            - name: Copy docker-compose file
-              run: |
-                scp -o StrictHostKeyChecking=no docker-compose.yml root@${{ secrets.DROPLET_HOST_ADRESS }}:/root/docker-compose.yml
-
-            - name: Deploy Docker Container
-              run: |
-                  ssh -o StrictHostKeyChecking=no root@${{ secrets.DROPLET_HOST_ADRESS }} << EOF
-
-
-                    docker images purge
-                    docker pull ${{ secrets.DOCKER_USERNAME }}/deposit-calculator:latest
-                    docker pull ${{ secrets.DOCKER_USERNAME }}/nginx:latest
-
-                      if docker ps -a --format '{{.Names}}' | grep -q '^nginx$'; then
-                      docker stop nginx
-                      docker rm nginx
-                    fi
-
-                    if docker ps -a --format '{{.Names}}' | grep -q '^deposit-calculator$'; then
-                      docker stop deposit-calculator
-                      docker rm deposit-calculator
-                    fi
-
-                    docker-compose up -d
-                  EOF
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Deploy to Digital Ocean droplet
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DROPLET_HOST_ADRESS }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          git pull origin main
+          docker-compose pull
+          docker-compose up -d
