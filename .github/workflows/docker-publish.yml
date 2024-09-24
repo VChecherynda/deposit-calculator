@@ -47,7 +47,7 @@ jobs:
         username: ${{ secrets.DROPLET_USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          docker-compose pull
+          docker-compose pull ${{ secrets.DOCKER_USERNAME }}/dcalc:${GITHUB_SHA}
           docker-compose up -d
         debug: true
 
