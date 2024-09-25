@@ -38,9 +38,9 @@ jobs:
       env:
         DROPLET_IP: ${{ secrets.DROPLET_HOST_ADRESS }}
       run: |
-        rsync -e "ssh bastion ssh" ./nginx.conf /etc/nginx/nginx.conf
-        rsync -e "ssh bastion ssh" ./ssl/dcalc.crt /etc/nginx/ssl/dcalc.cert
-        rsync -e "ssh bastion ssh" ./ssl/dcalc.key /etc/nginx/ssl/dcalc.key
+        rsync -e "ssh bastion ssh" ./nginx.conf root@$DROPLET_IP:/etc/nginx/nginx.conf
+        rsync -e "ssh bastion ssh" ./ssl/dcalc.crt root@$DROPLET_IP:/etc/nginx/ssl/dcalc.cert
+        rsync -e "ssh bastion ssh" ./ssl/dcalc.key root@$DROPLET_IP:/etc/nginx/ssl/dcalc.key
 
     - name: Deploy to Droplet
       env:
