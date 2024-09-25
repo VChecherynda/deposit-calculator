@@ -1,8 +1,14 @@
 version: '3'
 services:
   nextjs:
-    build: .
+    image: vchecherynda/nextjs:latest
     container_name: nextjs
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - nginx
   
   nginx:
     image: nginx:alpine

@@ -21,12 +21,12 @@ jobs:
     - name: Build docker image
       id: build-docker-image
       run: |
-        docker build . -f Dockerfile -t vchecherynda/nextjs:${{ github.sha }}
+        docker build . -f Dockerfile -t vchecherynda/nextjs:latest
 
     - name: Push docker image
       id: push-docker-image
       run: |
-        docker push vchecherynda/nextjs:${{ github.sha }}
+        docker push vchecherynda/nextjs:latest
     
     - name: Install SSH key
       uses: shimataro/ssh-key-action@v2
@@ -39,7 +39,7 @@ jobs:
         DROPLET_IP: ${{ secrets.DROPLET_HOST_ADRESS }}
       run: |
         ssh root@$DROPLET_IP << 'EOT'
-          docker pull vchecherynda/nextjs:${{ github.sha }}
+          docker pull vchecherynda/nextjs:latest
           docker stop nextjs || true
           docker rm nextjs || true
           docker-compose up -d
