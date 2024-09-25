@@ -3,7 +3,7 @@ services:
     image: vchecherynda/nextjs:latest
     container_name: nextjs
     ports:
-      - "3000:443"
+      - "3000:80"
   
   nginx:
     image: nginx:alpine
