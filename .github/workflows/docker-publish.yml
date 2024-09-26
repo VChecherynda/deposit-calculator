@@ -1,68 +1,68 @@
 name: Deploy to DigitalOcean
 
 on:
-  push:
-    branches: [ main ]
+    push:
+        branches: [main]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    
-    - name: Login to the Docker hub
-      id: docker-hub
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      run: |
-        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD 
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
 
-    - name: Build docker image
-      id: build-docker-image
-      run: |
-        docker build . -f Dockerfile -t vchecherynda/nextjs:latest
+            - name: Login to the Docker hub
+              id: docker-hub
+              env:
+                  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+                  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+              run: |
+                  docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
-    - name: Push docker image
-      id: push-docker-image
-      run: |
-        docker push vchecherynda/nextjs:latest
+            - name: Build docker image
+              id: build-docker-image
+              run: |
+                  docker build . -f Dockerfile -t vchecherynda/nextjs:latest
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
+            - name: Push docker image
+              id: push-docker-image
+              run: |
+                  docker push vchecherynda/nextjs:latest
 
-    - name: Install SSH key
-      uses: shimataro/ssh-key-action@v2
-      with:
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        known_hosts: ${{ secrets.DROPLET_HOST_ADRESS }}
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
 
-    - name: Adding Known Hosts
-      run: ssh-keyscan -H ${{ secrets.DROPLET_HOST_ADRESS }} >> ~/.ssh/known_hosts
+            - name: Install SSH key
+              uses: shimataro/ssh-key-action@v2
+              with:
+                  key: ${{ secrets.SSH_PRIVATE_KEY }}
+                  known_hosts: ${{ secrets.DROPLET_HOST_ADRESS }}
 
-    - name: List Files
-      run: ls -al ./ 
+            - name: Adding Known Hosts
+              run: ssh-keyscan -H ${{ secrets.DROPLET_HOST_ADRESS }} >> ~/.ssh/known_hosts
 
-    - name: Copy config files to Droplet
-      env:
-        DROPLET_IP: ${{ secrets.DROPLET_HOST_ADRESS }}
-      run: |
-        ssh root@$DROPLET_IP 'mkdir -p /ssl'
-        rsync -avz -e ssh ./nginx.conf root@$DROPLET_IP:/nginx.conf
-        rsync -avz -e ssh ./docker-compose.yml root@$DROPLET_IP:/docker-compose.yml
-        rsync -avz -e ssh ./ssl/dcalc.crt root@$DROPLET_IP:/ssl/dcalc.cert
-        rsync -avz -e ssh ./ssl/dcalc.key root@$DROPLET_IP:/ssl/dcalc.key
+            - name: List Files
+              run: ls -al ./
 
-    - name: Deploy to Droplet
-      env:
-        DROPLET_IP: ${{ secrets.DROPLET_HOST_ADRESS }}
-      run: |
-        ssh root@$DROPLET_IP << 'EOT'
-          docker pull vchecherynda/nextjs:latest
-          docker stop nextjs || true
-          docker rm nextjs || true
-          docker-compose up -d
-        EOT
+            - name: Copy config files to Droplet
+              env:
+                  DROPLET_IP: ${{ secrets.DROPLET_HOST_ADRESS }}
+              run: |
+                  ssh root@$DROPLET_IP 'mkdir -p /ssl'
+                  rsync -avz -e ssh ./nginx.conf root@$DROPLET_IP:/root/nginx.conf
+                  rsync -avz -e ssh ./docker-compose.yml root@$DROPLET_IP:/root/docker-compose.yml
+                  rsync -avz -e ssh ./ssl/dcalc.crt root@$DROPLET_IP:/root/ssl/dcalc.cert
+                  rsync -avz -e ssh ./ssl/dcalc.key root@$DROPLET_IP:/root/ssl/dcalc.key
+
+            - name: Deploy to Droplet
+              env:
+                  DROPLET_IP: ${{ secrets.DROPLET_HOST_ADRESS }}
+              run: |
+                  ssh root@$DROPLET_IP << 'EOT'
+                    docker pull vchecherynda/nextjs:latest
+                    docker stop nextjs || true
+                    docker rm nextjs || true
+                    docker-compose up -d
+                  EOT
