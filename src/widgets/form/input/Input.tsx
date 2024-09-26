@@ -16,7 +16,7 @@ export const Input = ({
     onChange: (params: any) => void;
 }) => {
     return (
-        <div className="mb-4">
+        <div className="mb-4 w-full sm:w-[180px]">
             <Label htmlFor="picture">{label}</Label>
             <InputCore value={value} onChange={onChange} />
             {errors?.name && (

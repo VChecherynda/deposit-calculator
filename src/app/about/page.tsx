@@ -2,7 +2,7 @@ import { Link } from '@/shared/ui';
 
 export default function About() {
     return (
-        <main className="mx-auto min-h-screen w-1/2 p-24">
+        <main className="mx-auto w-full p-8 sm:w-1/2 sm:p-24">
             <h1 className="mb-8 text-4xl font-bold">About Author</h1>
 
             <p className="mb-4">

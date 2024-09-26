@@ -64,14 +64,12 @@ export function Header() {
                 <div className="mt-6 flow-root">
                     <div className="divide-y divide-gray-500/10">
                         {NAVIGATION.map((item) => (
-                            <div
-                                key={item.name}
-                                className="t w-full space-y-2 py-4"
-                            >
+                            <div key={item.name} className="t w-full">
                                 <Link
                                     href={item.href}
                                     name={item.name}
                                     variant="full"
+                                    className="p-4 text-white"
                                     onClick={() => setMobileMenuOpen(false)}
                                 />
                             </div>

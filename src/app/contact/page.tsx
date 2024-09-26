@@ -4,7 +4,7 @@ import { Link, LinkIcon } from '@/shared/ui';
 
 export default function Contact() {
     return (
-        <main className="mx-auto min-h-screen w-1/2 p-24">
+        <main className="mx-auto w-full p-8 sm:w-1/2 sm:p-24">
             <h1 className="mb-8 text-4xl font-bold">My contacts</h1>
 
             <div className="mb-6 flex">
