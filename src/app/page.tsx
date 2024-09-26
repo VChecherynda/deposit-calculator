@@ -10,8 +10,8 @@ export default function Home() {
 
                     <p className="mt-6 text-lg leading-8 text-gray-600">
                         This is learning project which help me and you calculate
-                        your income. You basically add how much money your could
-                        save and how many do you need.
+                        your deposit income. You basically add how much money
+                        your could save and how many do you need.
                     </p>
                     <div className="mt-10 flex items-center justify-center gap-x-6">
                         <LinkButton href="/calculator" name="Get started" />
