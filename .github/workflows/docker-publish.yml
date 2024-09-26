@@ -53,7 +53,7 @@ jobs:
                   ssh root@$DROPLET_IP 'mkdir -p /ssl'
                   rsync -avz -e ssh ./nginx.conf root@$DROPLET_IP:/root/nginx.conf
                   rsync -avz -e ssh ./docker-compose.yml root@$DROPLET_IP:/root/docker-compose.yml
-                  rsync -avz -e ssh ./ssl/dcalc.crt root@$DROPLET_IP:/root/ssl/dcalc.cert
+                  rsync -avz -e ssh ./ssl/dcalc.crt root@$DROPLET_IP:/root/ssl/dcalc.crt
                   rsync -avz -e ssh ./ssl/dcalc.key root@$DROPLET_IP:/root/ssl/dcalc.key
 
             - name: Deploy to Droplet
