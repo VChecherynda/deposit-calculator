@@ -41,6 +41,9 @@ jobs:
     - name: Adding Known Hosts
       run: ssh-keyscan -H ${{ secrets.DROPLET_HOST_ADRESS }} >> ~/.ssh/known_hosts
 
+    - name: List Files
+      run: ls -al ./ 
+
     - name: Copy config files to Droplet
       env:
         DROPLET_IP: ${{ secrets.DROPLET_HOST_ADRESS }}
