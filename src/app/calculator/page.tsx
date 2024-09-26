@@ -67,6 +67,7 @@ export default function Calculator() {
 
     return (
         <main className="flex min-h-screen flex-col items-center p-24">
+            <h1 className="mb-8 text-4xl font-bold">Calculate your deposit</h1>
             <FormSavings
                 values={values}
                 onChange={onChange}

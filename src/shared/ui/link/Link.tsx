@@ -1,14 +1,17 @@
 import React from 'react';
 import NextLink from 'next/link';
+import { cn } from '@/shared/lib/utils';
 
 export const Link = ({
     href,
     name,
+    className = 'text-sm text-gray-300',
     variant = 'default',
     onClick,
 }: {
     href: string;
     name: string | JSX.Element;
+    className?: string;
     variant?: 'full' | 'default';
     onClick?: () => void;
 }) => {
@@ -16,7 +19,10 @@ export const Link = ({
         return (
             <NextLink
                 href={href}
-                className="white block w-full text-sm font-semibold leading-6 text-gray-300 hover:bg-gray-700 hover:text-white"
+                className={cn(
+                    className,
+                    'white block w-full font-semibold leading-6 hover:bg-gray-700 hover:text-white'
+                )}
                 onClick={onClick}
             >
                 {name}
@@ -27,7 +33,7 @@ export const Link = ({
     return (
         <NextLink
             href={href}
-            className="text-sm font-semibold leading-6 text-gray-900"
+            className={cn(className, 'font-semibold leading-6')}
             onClick={onClick}
         >
             {name}
