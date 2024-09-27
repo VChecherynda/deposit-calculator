@@ -22,7 +22,7 @@ import {
     calculateTotalYears,
     calculateYearSavings,
     calculateYearsMonthsDays,
-} from '../lib';
+} from '../../lib';
 
 import { BigNumber } from '@/shared/lib/bigNumber';
 
