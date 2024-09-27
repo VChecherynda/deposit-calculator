@@ -42,12 +42,8 @@ export const Convertor = () => {
     return (
         <Card className="mb-8">
             <CardHeader>
-                <CardTitle className="text-2xl">
-                    Calculate your deposit
-                </CardTitle>
-                <CardDescription>
-                    Here you can calculate how much money do you need to save
-                </CardDescription>
+                <CardTitle className="text-2xl">Conver currency</CardTitle>
+                <CardDescription>Simple currency convertor</CardDescription>
             </CardHeader>
             <CardContent>
                 <Select
