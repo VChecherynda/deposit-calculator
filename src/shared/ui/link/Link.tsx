@@ -21,7 +21,7 @@ export const Link = ({
                 href={href}
                 className={cn(
                     className,
-                    'white block w-full font-semibold leading-6 hover:bg-gray-700 hover:text-white'
+                    'white block w-full font-semibold leading-6'
                 )}
                 onClick={onClick}
             >

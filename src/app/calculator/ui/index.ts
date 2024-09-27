@@ -1,2 +1,2 @@
-export { FormSavings } from './FormSavings';
-export { Total } from './Total';
+export { Savings } from './Savings';
+export { Convertor } from './Convertor';

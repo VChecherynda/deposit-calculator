@@ -3,14 +3,16 @@ import {
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from '@/shared/ui/select';
+import { Input as InputCore } from '@/shared/ui/input';
+import { Label } from '@radix-ui/react-label';
 
 export const Select = ({
     label,
     value,
+    loading,
     options,
     onChange,
 }: {
@@ -19,30 +21,33 @@ export const Select = ({
     value: string;
     loading: boolean;
     options: { key: string; value: string }[];
-    errors?: {
-        name: string;
-    };
     onChange?: (params: any) => void;
 }) => {
     return (
-        <div className="mb-4 w-full sm:w-[180px]">
-            <SelectCore value={value} onValueChange={onChange}>
-                <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a fruit" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectGroup>
-                        <SelectLabel>{label}</SelectLabel>
-                        {options.map((item) => {
-                            return (
-                                <SelectItem key={item.key} value={item.key}>
-                                    {item.value}
-                                </SelectItem>
-                            );
-                        })}
-                    </SelectGroup>
-                </SelectContent>
-            </SelectCore>
+        <div className="mb-4 w-full">
+            <Label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                {label}
+            </Label>
+            {loading ? (
+                <InputCore defaultValue="Loading..." />
+            ) : (
+                <SelectCore value={value} onValueChange={onChange}>
+                    <SelectTrigger className="w-full">
+                        <SelectValue placeholder={'Select a fruit'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            {options.map((item) => {
+                                return (
+                                    <SelectItem key={item.key} value={item.key}>
+                                        {item.value}
+                                    </SelectItem>
+                                );
+                            })}
+                        </SelectGroup>
+                    </SelectContent>
+                </SelectCore>
+            )}
         </div>
     );
 };

@@ -3,7 +3,7 @@ import { Link, LinkButton } from '@/shared/ui';
 
 export default function Home() {
     return (
-        <main className="relative isolate mx-auto w-full p-8 px-6 sm:w-1/2 sm:p-24">
+        <main className="relative isolate mx-auto w-full p-8 px-6">
             <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
                 <div className="text-center">
                     <Title title="Future income" />

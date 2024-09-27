@@ -1,17 +1,19 @@
-import { Savings } from '@/app/calculator/types/Savings';
+export const calculateTotalYears = (params: {
+    goal: number | undefined;
+    savings: number | undefined;
+    percent: number | undefined;
+}) => {
+    const { goal, savings, percent } = params;
 
-export const calculateTotalYears = (values: Savings) => {
-    const { goal, savings, percent } = values;
-
-    if (!percent || !savings || !goal) {
+    if (!goal || !savings || !percent) {
         return 0;
     }
 
-    const goalSavings = Number(goal) * 12;
+    const goalSavings = goal * 12;
 
-    const yearSavings = Number(savings) * 12;
+    const yearSavings = savings * 12;
 
-    const earningPerYear = (yearSavings / 100) * Number(percent);
+    const earningPerYear = (yearSavings / 100) * percent;
 
     return goalSavings / earningPerYear;
 };

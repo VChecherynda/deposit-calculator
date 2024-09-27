@@ -22,7 +22,7 @@ export default function RootLayout({
             <Providers>
                 <body className={inter.className}>
                     <Header />
-                    {children}
+                    <main className="mx-auto max-w-[980px]">{children}</main>
                 </body>
             </Providers>
         </html>

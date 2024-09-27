@@ -4,7 +4,6 @@ import { Label } from '@/shared/ui/label';
 export const Input = ({
     label,
     value,
-    errors,
     onChange,
 }: {
     label: string;
@@ -16,14 +15,9 @@ export const Input = ({
     onChange: (params: any) => void;
 }) => {
     return (
-        <div className="mb-4 w-full sm:w-[180px]">
+        <div className="] mb-4 w-full">
             <Label htmlFor="picture">{label}</Label>
             <InputCore value={value} onChange={onChange} />
-            {errors?.name && (
-                <span className="text-sm text-red-500">
-                    This field is required
-                </span>
-            )}
         </div>
     );
 };
