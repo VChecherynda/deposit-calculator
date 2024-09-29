@@ -1,18 +1,16 @@
 services:
-  nextjs:
-    image: vchecherynda/nextjs:latest
-    container_name: nextjs
-    ports:
-      - "3000:80"
-  
-  nginx:
-    image: nginx:alpine
-    container_name: nginx
-    ports:
-      - "443:443"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./ssl/dcalc.crt:/etc/nginx/ssl/dcalc.crt
-      - ./ssl/dcalc.key:/etc/nginx/ssl/dcalc.key
-    depends_on:
-      - nextjs
+    nextjs:
+        image: vchecherynda/nextjs:latest
+        container_name: nextjs
+        ports:
+            - '3000:80'
+
+    nginx:
+        image: nginx:alpine
+        container_name: nginx
+        ports:
+            - '80:80'
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
+        depends_on:
+            - nextjs
