@@ -61,7 +61,7 @@ export const Convertor = () => {
     }, [exchangeRate, currentValue]);
 
     return (
-        <Card className="mb-8">
+        <Card className="mb-8 w-full sm:min-w-[460px]">
             <CardHeader>
                 <CardTitle className="text-2xl">Currency convertor</CardTitle>
                 <CardDescription>
