@@ -25,7 +25,7 @@ export function queryCurrencyCurrent(
     toCurrency: string
 ) {
     return queryOptions({
-        queryKey: ['fromCurrency', fromCurrency],
+        queryKey: ['fromCurrency', fromCurrency, 'toCurrency', toCurrency],
         queryFn: async () => {
             const response = await fetch(
                 `${process.env.NEXT_PUBLIC_API}@latest/v1/currencies/${fromCurrency}.json`

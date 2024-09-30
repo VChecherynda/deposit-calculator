@@ -36,7 +36,7 @@ export const Savings = () => {
     const { isFetching: isFetchingList, data: currencyList } =
         useQuery(queryCurrencyList());
 
-    const { data: exchangeRate } = useQuery(
+    const { data: { exchangeRate } = {} } = useQuery(
         queryCurrencyCurrent(currencyPrev, currencyCur)
     );
 

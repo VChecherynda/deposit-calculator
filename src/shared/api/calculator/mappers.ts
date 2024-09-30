@@ -20,8 +20,12 @@ export function transformFromCurrencyDTOtoCurrency(
     toCurrency: string
 ) {
     if (fromCurrency) {
-        return data[fromCurrency][toCurrency];
+        return {
+            fromCurrency,
+            toCurrency,
+            exchangeRate: data[fromCurrency][toCurrency],
+        };
     }
 
-    return '';
+    return {};
 }

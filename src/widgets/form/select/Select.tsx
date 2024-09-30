@@ -33,7 +33,7 @@ export const Select = ({
             ) : (
                 <SelectCore value={value} onValueChange={onChange}>
                     <SelectTrigger className="w-full">
-                        <SelectValue placeholder={'Select a fruit'} />
+                        <SelectValue placeholder={'Select a currency'} />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -12,7 +12,6 @@ import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from '@/shared/ui/card';
@@ -20,55 +19,130 @@ import {
 import BigNumber from 'bignumber.js';
 
 export const Convertor = () => {
-    const [currencyPrev, setCurrencyPrev] = useState<string>('');
-    const [currencyCur, setCurrencyCur] = useState<string>('usd');
-    const [currencyValue, setCurrencyValue] = useState<number>(100);
+    const [currentValue, setCurrentCurrency] = useState<string>('');
+    const [currencyFrom, setCurrencyFrom] = useState<string>('usd');
+    const [currencyTo, setCurrencyTo] = useState<string>('');
+    const [currencyFromValue, setCurrencyFromValue] = useState<number>(100);
+    const [currencyToValue, setCurrencyToValue] = useState<number>(0);
 
     const { isFetching: isFetchingList, data: currencyList } =
         useQuery(queryCurrencyList());
 
-    const { data: exchangeRate } = useQuery(
-        queryCurrencyCurrent(currencyPrev, currencyCur)
+    const { data: { exchangeRate } = {} } = useQuery(
+        queryCurrencyCurrent(currencyFrom, currencyTo)
     );
+
+    const convertToExchangeRate = (
+        value: number,
+        exchangeRate: string | number | undefined
+    ) => {
+        if (!value || !exchangeRate) {
+            return 0;
+        }
+
+        return Number(new BigNumber(value).multipliedBy(exchangeRate));
+    };
+
+    const convertFromExchangeRate = (
+        value: number,
+        exchangeRate: string | number | undefined
+    ) => {
+        if (!value || !exchangeRate) {
+            return 0;
+        }
+
+        return Number(new BigNumber(value).dividedBy(exchangeRate));
+    };
 
     useEffect(() => {
-        if (exchangeRate) {
-            setCurrencyValue(
-                Number(new BigNumber(currencyValue).multipliedBy(exchangeRate))
-            );
+        if (exchangeRate && currencyTo === currentValue) {
+            if (currencyToValue === 0 && currencyFromValue > 0) {
+                setCurrencyToValue(
+                    convertToExchangeRate(currencyFromValue, exchangeRate)
+                );
+            } else {
+                setCurrencyFromValue(
+                    convertToExchangeRate(currencyToValue, exchangeRate)
+                );
+            }
         }
-    }, [exchangeRate]);
 
-    console.log(
-        '[currencyValue]',
-        currencyValue ? currencyValue.toFixed(2) : currencyValue
-    );
+        if (exchangeRate && currencyFrom === currentValue) {
+            if (currencyFromValue === 0 && currencyToValue > 0) {
+                setCurrencyFromValue(
+                    convertToExchangeRate(currencyToValue, exchangeRate)
+                );
+            } else {
+                setCurrencyToValue(
+                    convertToExchangeRate(currencyFromValue, exchangeRate)
+                );
+            }
+        }
+    }, [exchangeRate, currentValue]);
 
     return (
         <Card className="mb-8">
             <CardHeader>
-                <CardTitle className="text-2xl">Conver currency</CardTitle>
+                <CardTitle className="text-2xl">Currency convertor</CardTitle>
                 <CardDescription>Simple currency convertor</CardDescription>
             </CardHeader>
             <CardContent>
                 <Select
-                    label="Select currency to convert"
+                    label="Select currency to convert from"
                     name="currency"
-                    value={currencyCur}
+                    value={currencyFrom}
                     loading={isFetchingList}
                     options={currencyList ?? []}
                     onChange={(value) => {
-                        setCurrencyPrev(currencyCur);
-                        setCurrencyCur(value);
+                        setCurrencyFrom(value);
+                        setCurrentCurrency(value);
                     }}
                 />
                 <Input
-                    label={`Currency ${currencyCur.toUpperCase()}`}
+                    label={`Currency ${currencyFrom.toUpperCase()}`}
                     name="currency"
-                    value={currencyValue}
+                    value={currencyFromValue}
                     onChange={(e) => {
                         const { value } = e.target;
-                        setCurrencyValue(value ? Number(value) : value);
+                        setCurrencyFromValue(value ? Number(value) : value);
+
+                        if (value) {
+                            setCurrencyToValue(
+                                convertFromExchangeRate(
+                                    Number(value),
+                                    exchangeRate
+                                )
+                            );
+                        }
+                    }}
+                />
+                <Select
+                    label="Select currency to convert to"
+                    name="currency"
+                    value={currencyTo}
+                    loading={isFetchingList}
+                    options={currencyList ?? []}
+                    onChange={(value) => {
+                        setCurrencyTo(value);
+                        setCurrentCurrency(value);
+                    }}
+                />
+                <Input
+                    label={`Currency ${currencyTo.toUpperCase()}`}
+                    name="currency"
+                    value={currencyToValue}
+                    onChange={(e) => {
+                        const { value } = e.target;
+                        setCurrencyToValue(value ? Number(value) : value);
+
+                        if (value) {
+                            setCurrencyFromValue(
+                                convertFromExchangeRate(
+                                    Number(value),
+                                    exchangeRate
+                                )
+                            );
+                        }
                     }}
                 />
             </CardContent>
