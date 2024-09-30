@@ -39,6 +39,11 @@ export const Convertor = () => {
         }
     }, [exchangeRate]);
 
+    console.log(
+        '[currencyValue]',
+        currencyValue ? currencyValue.toFixed(2) : currencyValue
+    );
+
     return (
         <Card className="mb-8">
             <CardHeader>
@@ -60,7 +65,7 @@ export const Convertor = () => {
                 <Input
                     label={`Currency ${currencyCur.toUpperCase()}`}
                     name="currency"
-                    value={currencyValue.toFixed(2)}
+                    value={currencyValue}
                     onChange={(e) => {
                         const { value } = e.target;
                         setCurrencyValue(value ? Number(value) : value);

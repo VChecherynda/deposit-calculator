@@ -78,7 +78,7 @@ export const Savings = () => {
                 <Input
                     label={`Your goal ${currencyCur.toUpperCase()} per/month`}
                     name="goal"
-                    value={goal.toFixed(2)}
+                    value={goal}
                     onChange={(e) => {
                         const { value } = e.target;
                         setGoal(value ? Number(value) : value);
@@ -87,7 +87,7 @@ export const Savings = () => {
                 <Input
                     label={`Savings ${currencyCur.toUpperCase()} per/month`}
                     name="savings"
-                    value={savings.toFixed(2)}
+                    value={savings}
                     onChange={(e) => {
                         const { value } = e.target;
                         setSavings(value ? Number(value) : value);
@@ -96,7 +96,7 @@ export const Savings = () => {
                 <Input
                     label="Percent (%)"
                     name="percent"
-                    value={percent ?? ''}
+                    value={percent}
                     onChange={(e) => {
                         const { value } = e.target;
                         setPercent(value ? Number(value) : value);
