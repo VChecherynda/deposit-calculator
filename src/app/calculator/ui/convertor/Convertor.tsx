@@ -1,5 +1,5 @@
 'use client';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -15,8 +15,10 @@ import {
     CardHeader,
     CardTitle,
 } from '@/shared/ui/card';
-
-import BigNumber from 'bignumber.js';
+import {
+    convertFromExchangeRate,
+    convertToExchangeRate,
+} from '@/app/calculator/lib';
 
 export const Convertor = () => {
     const [currentValue, setCurrentCurrency] = useState<string>('');
@@ -28,31 +30,9 @@ export const Convertor = () => {
     const { isFetching: isFetchingList, data: currencyList } =
         useQuery(queryCurrencyList());
 
-    const { data: { exchangeRate } = {} } = useQuery(
+    const { data: { fromCurrency, toCurrency, exchangeRate } = {} } = useQuery(
         queryCurrencyCurrent(currencyFrom, currencyTo)
     );
-
-    const convertToExchangeRate = (
-        value: number,
-        exchangeRate: string | number | undefined
-    ) => {
-        if (!value || !exchangeRate) {
-            return 0;
-        }
-
-        return Number(new BigNumber(value).multipliedBy(exchangeRate));
-    };
-
-    const convertFromExchangeRate = (
-        value: number,
-        exchangeRate: string | number | undefined
-    ) => {
-        if (!value || !exchangeRate) {
-            return 0;
-        }
-
-        return Number(new BigNumber(value).dividedBy(exchangeRate));
-    };
 
     useEffect(() => {
         if (exchangeRate && currencyTo === currentValue) {
@@ -84,7 +64,11 @@ export const Convertor = () => {
         <Card className="mb-8">
             <CardHeader>
                 <CardTitle className="text-2xl">Currency convertor</CardTitle>
-                <CardDescription>Simple currency convertor</CardDescription>
+                <CardDescription>
+                    {`Exch Rate: 
+                        ${exchangeRate ? `${fromCurrency?.toUpperCase()} -> ${toCurrency?.toUpperCase()}: ${exchangeRate}` : ''}
+                    `}
+                </CardDescription>
             </CardHeader>
             <CardContent>
                 <Select
