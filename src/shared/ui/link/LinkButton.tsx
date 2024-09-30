@@ -2,7 +2,7 @@ import React from 'react';
 import NextLink from 'next/link';
 
 const VARIANTS_CONFIG = {
-    theme: 'bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600',
+    theme: 'bg-black hover:bg-black focus-visible:obg-black',
     black: 'text-gray-300 hover:bg-gray-700 hover:text-white',
 };
 

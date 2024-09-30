@@ -25,6 +25,7 @@ import {
 } from '../../lib';
 
 import { BigNumber } from '@/shared/lib/bigNumber';
+import { LinkButton } from '@/shared/ui';
 
 export const Savings = () => {
     const [currencyPrev, setCurrencyPrev] = useState<string>('');
@@ -104,7 +105,7 @@ export const Savings = () => {
                 />
             </CardContent>
             <CardFooter>
-                <div className="flex flex-wrap">
+                <div className="flex w-full flex-wrap">
                     <div className="mb-4 w-full">
                         <b>Total:</b>
                         <br />
@@ -113,9 +114,13 @@ export const Savings = () => {
                             calculateTotalYears({ goal, percent, savings })
                         ).toFixed(2)}
                     </div>
-                    <div className="mb-4 w-full">
-                        <b>Term:</b>
-                        <br /> {`${years} years ${month} month ${days} days`}
+                    <div className="mb-4 flex w-full items-end justify-between">
+                        <div>
+                            <b>Term:</b>
+                            <br />
+                            {`${years} years ${month} month ${days} days`}
+                        </div>
+                        <LinkButton href={'/dashboard'} name="Detials" />
                     </div>
                 </div>
             </CardFooter>
