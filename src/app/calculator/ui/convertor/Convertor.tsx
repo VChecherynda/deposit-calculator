@@ -86,18 +86,14 @@ export const Convertor = () => {
                     label={`Currency ${currencyFrom.toUpperCase()}`}
                     name="currency"
                     value={currencyFromValue}
+                    disabled={!currencyFrom.length}
                     onChange={(e) => {
                         const { value } = e.target;
                         setCurrencyFromValue(value ? Number(value) : value);
 
-                        if (value) {
-                            setCurrencyToValue(
-                                convertFromExchangeRate(
-                                    Number(value),
-                                    exchangeRate
-                                )
-                            );
-                        }
+                        setCurrencyToValue(
+                            convertToExchangeRate(Number(value), exchangeRate)
+                        );
                     }}
                 />
                 <Select
@@ -115,18 +111,14 @@ export const Convertor = () => {
                     label={`Currency ${currencyTo.toUpperCase()}`}
                     name="currency"
                     value={currencyToValue}
+                    disabled={!currencyTo.length}
                     onChange={(e) => {
                         const { value } = e.target;
                         setCurrencyToValue(value ? Number(value) : value);
 
-                        if (value) {
-                            setCurrencyFromValue(
-                                convertFromExchangeRate(
-                                    Number(value),
-                                    exchangeRate
-                                )
-                            );
-                        }
+                        setCurrencyFromValue(
+                            convertFromExchangeRate(Number(value), exchangeRate)
+                        );
                     }}
                 />
             </CardContent>
