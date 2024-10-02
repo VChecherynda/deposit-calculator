@@ -19,20 +19,20 @@ import {
 } from '@/shared/ui/card';
 
 import {
-    calculateTotalYears,
-    calculateYearSavings,
+    calculateDepoists,
     calculateYearsMonthsDays,
-} from '../../lib';
+} from '@/shared/lib/depositCalculations';
 
 import { BigNumber } from '@/shared/lib/bigNumber';
 import { LinkButton } from '@/shared/ui';
 
+// TO-DO need implement logic for calculate deposit values
 export const Savings = () => {
     const [currencyPrev, setCurrencyPrev] = useState<string>('');
     const [currencyCur, setCurrencyCur] = useState<string>('usd');
     const [goal, setGoal] = useState<number>(500);
     const [savings, setSavings] = useState<number>(2000);
-    const [percent, setPercent] = useState<number>(8);
+    const [interestRate, setInterestRate] = useState<number>(8);
 
     const { isFetching: isFetchingList, data: currencyList } =
         useQuery(queryCurrencyList());
@@ -50,15 +50,19 @@ export const Savings = () => {
         }
     }, [exchangeRate]);
 
-    const { years, month, days } = calculateYearsMonthsDays(
-        calculateTotalYears({ goal, savings, percent })
-    );
+    const { totalDays, totalBalance } = calculateDepoists({
+        goal,
+        savings,
+        interestRate,
+    });
+
+    const { years, month, days } = calculateYearsMonthsDays(totalDays);
 
     return (
         <Card className="mb-8 w-full sm:min-w-[460px]">
             <CardHeader>
                 <CardTitle className="text-2xl">
-                    Calculate your deposit
+                    Calculate Сompound interest
                 </CardTitle>
                 <CardDescription>
                     Here you can calculate how much money do you need to save
@@ -95,12 +99,12 @@ export const Savings = () => {
                     }}
                 />
                 <Input
-                    label="Percent (%)"
-                    name="percent"
-                    value={percent}
+                    label="Interest Rate (%)"
+                    name="interest"
+                    value={interestRate}
                     onChange={(e) => {
                         const { value } = e.target;
-                        setPercent(value ? Number(value) : value);
+                        setInterestRate(value ? Number(value) : value);
                     }}
                 />
             </CardContent>
@@ -109,10 +113,7 @@ export const Savings = () => {
                     <div className="mb-4 w-full">
                         <b>Total:</b>
                         <br />
-                        {(
-                            calculateYearSavings({ percent, savings }) *
-                            calculateTotalYears({ goal, percent, savings })
-                        ).toFixed(2)}
+                        {totalBalance.toFixed(2)}
                     </div>
                     <div className="mb-4 flex w-full items-end justify-between">
                         <div>
@@ -120,7 +121,10 @@ export const Savings = () => {
                             <br />
                             {`${years} years ${month} month ${days} days`}
                         </div>
-                        <LinkButton href={'/dashboard'} name="Detials" />
+                        <LinkButton
+                            href={`/dashboard?goal=${goal}&savings=${savings}&interestRate=${interestRate}&currency=${currencyCur.toUpperCase()}`}
+                            name="Detials"
+                        />
                     </div>
                 </div>
             </CardFooter>
