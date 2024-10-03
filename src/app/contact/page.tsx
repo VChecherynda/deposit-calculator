@@ -7,23 +7,23 @@ export default function Contact() {
         <div className="mx-auto w-full p-8 sm:w-1/2 sm:p-16">
             <h1 className="mb-8 text-4xl font-bold">My contacts:</h1>
 
-            <div className="mb-6 flex">
+            <div className="mb-4 flex">
                 <LinkIcon
-                    className="mr-4 text-4xl"
+                    className="mr-2 text-4xl"
                     href="https://www.facebook.com/profile.php?id=100001214651168"
-                    icon="BsFacebook"
+                    icon="facebook"
                     color="black"
                 />
 
                 <LinkIcon
-                    className="mr-4 text-4xl"
+                    className="mr-2 text-4xl"
                     href="https://www.facebook.com/profile.php?id=100001214651168"
-                    icon="BsLinkedin"
+                    icon="linkedin"
                     color="black"
                 />
             </div>
 
-            <div className="mb-6 flex">
+            <div className="mb-4 flex">
                 <p>Or email:</p>
 
                 <Link

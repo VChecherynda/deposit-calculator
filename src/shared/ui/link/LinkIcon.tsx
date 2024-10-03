@@ -1,6 +1,11 @@
 import React from 'react';
 import NextLink from 'next/link';
-import * as Icons from '@radix-ui/react-icons';
+import { Facebook, LinkedIn } from '@/shared/ui/icons';
+
+const CONFIG: Record<string, any> = {
+    facebook: Facebook,
+    linkedin: LinkedIn,
+};
 
 export const LinkIcon = ({
     href,
@@ -13,11 +18,11 @@ export const LinkIcon = ({
     color: string;
     className?: string;
 }) => {
-    const IconComponent = Icons[icon as keyof typeof Icons];
+    const IconComponent = CONFIG[icon];
 
     return (
         <NextLink href={href}>
-            <IconComponent className={className} color={color} />
+            <IconComponent color={color} className={className} />
         </NextLink>
     );
 };
