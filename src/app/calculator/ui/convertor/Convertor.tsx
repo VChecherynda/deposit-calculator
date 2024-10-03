@@ -50,13 +50,14 @@ export const Convertor = ({
                 convertToExchangeRate(currencyToValue, exchangeRate)
             );
         }
+        // eslint-disable-next-line
     }, [exchangeRate]);
 
     return (
         <Card className="mb-8 w-full sm:w-1/2">
             <CardHeader className="relative">
                 <CardTitle className="flex justify-between text-2xl">
-                    <p>Currency convertor</p>
+                    Currency convertor
                 </CardTitle>
 
                 <Button

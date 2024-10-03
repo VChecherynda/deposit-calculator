@@ -48,6 +48,7 @@ export const Savings = ({ hideCard }: { hideCard: (params: any) => void }) => {
                 Number(new BigNumber(savings).multipliedBy(exchangeRate))
             );
         }
+        // eslint-disable-next-line
     }, [exchangeRate]);
 
     const { totalDays, totalBalance } = calculateDepoists({
