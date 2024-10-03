@@ -1,6 +1,6 @@
 'use client';
+import { Cross1Icon } from '@radix-ui/react-icons';
 import { useEffect, useState } from 'react';
-
 import { useQuery } from '@tanstack/react-query';
 
 import { Select, Input } from '@/widgets/form';
@@ -19,8 +19,13 @@ import {
     convertFromExchangeRate,
     convertToExchangeRate,
 } from '@/app/calculator/lib';
+import { Button } from '@/shared/ui';
 
-export const Convertor = () => {
+export const Convertor = ({
+    hideCard,
+}: {
+    hideCard: (params: any) => void;
+}) => {
     const [currencyFrom, setCurrencyFrom] = useState<string>('usd');
     const [currencyTo, setCurrencyTo] = useState<string>('');
     const [currencyFromValue, setCurrencyFromValue] = useState<number>(100);
@@ -48,9 +53,21 @@ export const Convertor = () => {
     }, [exchangeRate]);
 
     return (
-        <Card className="mb-8 w-full sm:min-w-[460px]">
-            <CardHeader>
-                <CardTitle className="text-2xl">Currency convertor</CardTitle>
+        <Card className="mb-8 w-full sm:w-1/2">
+            <CardHeader className="relative">
+                <CardTitle className="flex justify-between text-2xl">
+                    <p>Currency convertor</p>
+                </CardTitle>
+
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={hideCard}
+                    className="absolute right-2 top-1"
+                >
+                    <Cross1Icon className="h-4 w-4" />
+                </Button>
+
                 <CardDescription>
                     {`Exch Rate: 
                         ${exchangeRate ? `${fromCurrency?.toUpperCase()} -> ${toCurrency?.toUpperCase()}: ${exchangeRate}` : ''}
@@ -68,7 +85,7 @@ export const Convertor = () => {
                         setCurrencyFrom(value);
 
                         if (!currencyToValue && currencyFromValue > 0) {
-                            setCurrencyToValue(currencyFromValue)
+                            setCurrencyToValue(currencyFromValue);
                         }
                     }}
                 />
@@ -82,10 +99,16 @@ export const Convertor = () => {
                         setCurrencyFromValue(value ? Number(value) : value);
 
                         setCurrencyToValue(
-                            fromCurrency === currencyFrom ? 
-                                convertToExchangeRate(Number(value), exchangeRate):
-                                convertFromExchangeRate(Number(value), exchangeRate)
-                        ); 
+                            fromCurrency === currencyFrom
+                                ? convertToExchangeRate(
+                                      Number(value),
+                                      exchangeRate
+                                  )
+                                : convertFromExchangeRate(
+                                      Number(value),
+                                      exchangeRate
+                                  )
+                        );
                     }}
                 />
                 <Select
@@ -98,7 +121,7 @@ export const Convertor = () => {
                         setCurrencyTo(value);
 
                         if (!currencyFromValue && currencyToValue > 0) {
-                            setCurrencyFromValue(currencyToValue)
+                            setCurrencyFromValue(currencyToValue);
                         }
                     }}
                 />
@@ -112,9 +135,15 @@ export const Convertor = () => {
                         setCurrencyToValue(value ? Number(value) : value);
 
                         setCurrencyFromValue(
-                            fromCurrency === currencyTo ?
-                                convertToExchangeRate(Number(value), exchangeRate):
-                                convertFromExchangeRate(Number(value), exchangeRate)
+                            fromCurrency === currencyTo
+                                ? convertToExchangeRate(
+                                      Number(value),
+                                      exchangeRate
+                                  )
+                                : convertFromExchangeRate(
+                                      Number(value),
+                                      exchangeRate
+                                  )
                         );
                     }}
                 />

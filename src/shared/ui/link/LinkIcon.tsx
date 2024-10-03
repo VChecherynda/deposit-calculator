@@ -1,6 +1,6 @@
 import React from 'react';
 import NextLink from 'next/link';
-import * as Icons from 'react-icons/bs';
+import * as Icons from '@radix-ui/react-icons';
 
 export const LinkIcon = ({
     href,

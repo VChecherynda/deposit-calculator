@@ -1,5 +1,5 @@
 'use client';
-
+import { Cross1Icon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 
 import { Select, Input } from '@/widgets/form';
@@ -24,10 +24,10 @@ import {
 } from '@/shared/lib/depositCalculations';
 
 import { BigNumber } from '@/shared/lib/bigNumber';
-import { LinkButton } from '@/shared/ui';
+import { Button, LinkButton } from '@/shared/ui';
 
 // TO-DO need implement logic for calculate deposit values
-export const Savings = () => {
+export const Savings = ({ hideCard }: { hideCard: (params: any) => void }) => {
     const [currencyPrev, setCurrencyPrev] = useState<string>('');
     const [currencyCur, setCurrencyCur] = useState<string>('usd');
     const [goal, setGoal] = useState<number>(500);
@@ -59,11 +59,21 @@ export const Savings = () => {
     const { years, month, days } = calculateYearsMonthsDays(totalDays);
 
     return (
-        <Card className="mb-8 w-full sm:min-w-[460px]">
-            <CardHeader>
-                <CardTitle className="text-2xl">
+        <Card className="mb-8 w-full sm:w-1/2">
+            <CardHeader className="relative">
+                <CardTitle className="flex justify-between text-2xl">
                     Calculate Сompound interest
                 </CardTitle>
+
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={hideCard}
+                    className="absolute right-2 top-1"
+                >
+                    <Cross1Icon className="h-4 w-4" />
+                </Button>
+
                 <CardDescription>
                     Here you can calculate how much money do you need to save
                 </CardDescription>
