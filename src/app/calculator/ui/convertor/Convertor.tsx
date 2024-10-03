@@ -21,7 +21,6 @@ import {
 } from '@/app/calculator/lib';
 
 export const Convertor = () => {
-    const [currentValue, setCurrentCurrency] = useState<string>('');
     const [currencyFrom, setCurrencyFrom] = useState<string>('usd');
     const [currencyTo, setCurrencyTo] = useState<string>('');
     const [currencyFromValue, setCurrencyFromValue] = useState<number>(100);
@@ -35,30 +34,18 @@ export const Convertor = () => {
     );
 
     useEffect(() => {
-        if (exchangeRate && currencyTo === currentValue) {
-            if (currencyToValue === 0 && currencyFromValue > 0) {
-                setCurrencyToValue(
-                    convertToExchangeRate(currencyFromValue, exchangeRate)
-                );
-            } else {
-                setCurrencyFromValue(
-                    convertToExchangeRate(currencyToValue, exchangeRate)
-                );
-            }
+        if (exchangeRate && currencyFrom === fromCurrency) {
+            setCurrencyToValue(
+                convertToExchangeRate(currencyFromValue, exchangeRate)
+            );
         }
 
-        if (exchangeRate && currencyFrom === currentValue) {
-            if (currencyFromValue === 0 && currencyToValue > 0) {
-                setCurrencyFromValue(
-                    convertToExchangeRate(currencyToValue, exchangeRate)
-                );
-            } else {
-                setCurrencyToValue(
-                    convertToExchangeRate(currencyFromValue, exchangeRate)
-                );
-            }
+        if (exchangeRate && currencyTo === fromCurrency) {
+            setCurrencyFromValue(
+                convertToExchangeRate(currencyToValue, exchangeRate)
+            );
         }
-    }, [exchangeRate, currentValue]);
+    }, [exchangeRate]);
 
     return (
         <Card className="mb-8 w-full sm:min-w-[460px]">
@@ -79,7 +66,10 @@ export const Convertor = () => {
                     options={currencyList ?? []}
                     onChange={(value) => {
                         setCurrencyFrom(value);
-                        setCurrentCurrency(value);
+
+                        if (!currencyToValue && currencyFromValue > 0) {
+                            setCurrencyToValue(currencyFromValue)
+                        }
                     }}
                 />
                 <Input
@@ -92,8 +82,10 @@ export const Convertor = () => {
                         setCurrencyFromValue(value ? Number(value) : value);
 
                         setCurrencyToValue(
-                            convertToExchangeRate(Number(value), exchangeRate)
-                        );
+                            fromCurrency === currencyFrom ? 
+                                convertToExchangeRate(Number(value), exchangeRate):
+                                convertFromExchangeRate(Number(value), exchangeRate)
+                        ); 
                     }}
                 />
                 <Select
@@ -104,7 +96,10 @@ export const Convertor = () => {
                     options={currencyList ?? []}
                     onChange={(value) => {
                         setCurrencyTo(value);
-                        setCurrentCurrency(value);
+
+                        if (!currencyFromValue && currencyToValue > 0) {
+                            setCurrencyFromValue(currencyToValue)
+                        }
                     }}
                 />
                 <Input
@@ -117,7 +112,9 @@ export const Convertor = () => {
                         setCurrencyToValue(value ? Number(value) : value);
 
                         setCurrencyFromValue(
-                            convertFromExchangeRate(Number(value), exchangeRate)
+                            fromCurrency === currencyTo ?
+                                convertToExchangeRate(Number(value), exchangeRate):
+                                convertFromExchangeRate(Number(value), exchangeRate)
                         );
                     }}
                 />
