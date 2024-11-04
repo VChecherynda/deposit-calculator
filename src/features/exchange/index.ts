@@ -1,0 +1,1 @@
+export { Convertor } from "@/features/exchange/Exchange"

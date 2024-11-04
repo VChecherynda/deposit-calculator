@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Header } from '@/widgets';
+import { Header } from '@/components';
 import { Inter } from 'next/font/google';
 import './globals.css';
 
@@ -20,7 +20,10 @@ export default function RootLayout({
     return (
         <html lang="en">
             <Providers>
-                <body className={inter.className} suppressHydrationWarning={true}>
+                <body
+                    className={inter.className}
+                    suppressHydrationWarning={true}
+                >
                     <Header />
                     <main className="mx-auto max-w-[980px]">{children}</main>
                 </body>

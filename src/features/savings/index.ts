@@ -1,0 +1,1 @@
+export { Savings } from "@/features/savings/Savings";

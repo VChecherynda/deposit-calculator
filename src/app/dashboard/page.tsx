@@ -8,7 +8,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from '@/shared/ui/table';
+} from '@/components/ui/table';
 import { useSearchParams } from 'next/navigation';
 import { calculateDepoists } from '@/shared/lib/depositCalculations';
 

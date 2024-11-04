@@ -1,8 +1,16 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useState } from 'react';
-import { Savings, Convertor, Add } from '@/app/calculator/ui';
-import useLocalStorage from '@/shared/hook/useLocalStorage';
+import { useLayoutEffect, useState } from 'react';
+import { Convertor } from '@/features/exchange';
+import { Savings } from '@/features/savings';
+import useLocalStorage from '@/shared/hooks/useLocalStorage';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@radix-ui/react-dropdown-menu';
+import { Button } from '@/components';
 
 const CONFIG = [
     {
@@ -65,14 +73,32 @@ export default function Calculator() {
         setCards(persistCards ?? [CONFIG[0].id]);
     }, [persistMenu, persistCards]);
 
+    const config = CONFIG.filter((item) => menu?.includes(item.id));
+
     return (
         <div>
             <div className="mx-auto gap-8 px-8 pt-8 sm:flex sm:pt-16">
-                <Add
-                    config={CONFIG.filter((item) => menu?.includes(item.id))}
-                    showCard={showCard}
-                />
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button>Add Card</Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56" align="start">
+                        {config.length > 0 ? (
+                            config.map((item) => (
+                                <DropdownMenuItem
+                                    key={item.id}
+                                    onSelect={() => showCard(item.id)}
+                                >
+                                    <span>{item.name}</span>
+                                </DropdownMenuItem>
+                            ))
+                        ) : (
+                            <DropdownMenuItem>No Cards Left</DropdownMenuItem>
+                        )}
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
+
             <div className="mx-auto gap-8 p-8 sm:flex sm:py-16">
                 {!cards && 'Loading...'}
 

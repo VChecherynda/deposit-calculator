@@ -1,6 +1,6 @@
 'use client';
 
-import { Link, LinkIcon } from '@/shared/ui';
+import { Link, LinkIcon } from '@/components';
 
 export default function Contact() {
     return (

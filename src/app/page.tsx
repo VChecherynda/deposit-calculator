@@ -1,5 +1,4 @@
-import { Title } from '@/shared/ui';
-import { Link, LinkButton } from '@/shared/ui';
+import { Title, Link, LinkButton } from '@/components';
 
 export default function Home() {
     return (

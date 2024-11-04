@@ -1,4 +1,4 @@
-import { Link } from '@/shared/ui';
+import { Link } from '@/components';
 
 export default function About() {
     return (
